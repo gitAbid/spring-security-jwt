@@ -17,7 +17,7 @@ class TokenUtils {
 
     fun getToken(userDetails: UserDetails): String {
         val claims = HashMap<String, Any>()
-        claims["user"] = userDetails.username
+        claims["sub"] = userDetails.username
         claims["created"] = Date()
         claims["roles"] = userDetails.authorities.stream().map { it.authority }.collect(Collectors.joining(","))
         return generateToken(claims)
