@@ -1,5 +1,6 @@
 package com.security.springsecurity.config
 
+import com.security.springsecurity.filter.AuthenticationFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 
 @Configuration
@@ -28,7 +30,17 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers("/public").permitAll()
                 .antMatchers("/auth").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
 
+
+    }
+
+    @Bean
+    fun authenticationFilter(): AuthenticationFilter {
+        return AuthenticationFilter().apply {
+            setAuthenticationManager(super.authenticationManager())
+        }
 
     }
 

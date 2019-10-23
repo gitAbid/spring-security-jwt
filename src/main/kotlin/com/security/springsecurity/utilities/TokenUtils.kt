@@ -1,13 +1,15 @@
 package com.security.springsecurity.utilities
 
+import com.security.springsecurity.model.AuthUserDetails
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
+import java.lang.RuntimeException
 import java.util.*
 import java.util.stream.Collectors
 import kotlin.collections.HashMap
-
 
 @Component
 class TokenUtils {
@@ -26,5 +28,22 @@ class TokenUtils {
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact()
+    }
+
+    fun getUserFromToken(token: String): UserDetails {
+        return AuthUserDetails(authUserName = getUserNameFromToken(token),
+                authPassword = "",
+                roles = getClaimsFromToken(token)["roles"] as String
+        )
+    }
+
+    private fun getClaimsFromToken(token: String): Claims = Jwts
+            .parser()
+            .setSigningKey(SECRET)
+            .parseClaimsJws(token)
+            .body?:throw RuntimeException("Unable to parse claim from token string")
+
+    fun getUserNameFromToken(token: String): String {
+        return getClaimsFromToken(token).subject ?:throw RuntimeException("Unable to parse username from token")
     }
 }
