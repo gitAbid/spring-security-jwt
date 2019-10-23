@@ -17,7 +17,7 @@ class AuthenticationFilter : UsernamePasswordAuthenticationFilter() {
     private val TOKEN_HEADER = "Authorization"
 
     @Autowired
-    val tokenUtils = TokenUtils()
+    lateinit var tokenUtils: TokenUtils
 
     override fun doFilter(req: ServletRequest, res: ServletResponse, chain: FilterChain) {
 

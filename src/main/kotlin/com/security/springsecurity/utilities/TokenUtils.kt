@@ -1,6 +1,6 @@
 package com.security.springsecurity.utilities
 
-import com.security.springsecurity.model.AuthUserDetails
+import com.security.springsecurity.dto.AuthUserDetailsDTO
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -31,7 +31,7 @@ class TokenUtils {
     }
 
     fun getUserFromToken(token: String): UserDetails {
-        return AuthUserDetails(authUserName = getUserNameFromToken(token),
+        return AuthUserDetailsDTO(authUserName = getUserNameFromToken(token),
                 authPassword = "",
                 roles = getClaimsFromToken(token)["roles"] as String
         )
