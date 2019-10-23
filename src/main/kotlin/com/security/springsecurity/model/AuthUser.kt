@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
-class AuthUser(
+data class AuthUser(
         @Id @GeneratedValue
         val id: Long?,
         val userName: String,
