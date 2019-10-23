@@ -1,10 +1,10 @@
-package com.security.springsecurity.model
+package com.security.springsecurity.dto
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetails
 
-class AuthUserDetails(var authUserName: String, var authPassword: String, var roles: String) : UserDetails {
+class AuthUserDetailsDTO(var authUserName: String, var authPassword: String, var roles: String) : UserDetails {
     override fun getUsername() = authUserName
     override fun getPassword() = authPassword
     override fun isEnabled() = true;
